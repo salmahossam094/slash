@@ -1,64 +1,50 @@
+// ignore_for_file: file_names
 
+import 'package:slash_intern/features/products/domain/entities/product_entity.dart';
 
-class ProductData {
+class ProductData extends ProductEntity {
   ProductData({
-      this.statusCode, 
-      this.message, 
-      this.pagination, 
-      this.data,});
+    super.statusCode,
+    super.message,
+    super.pagination,
+    super.data,
+  });
 
   ProductData.fromJson(dynamic json) {
     statusCode = json['statusCode'];
     message = json['message'];
-    pagination = json['pagination'] != null ? Pagination.fromJson(json['pagination']) : null;
+    pagination = json['pagination'] != null
+        ? PaginationModel.fromJson(json['pagination'])
+        : null;
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(Data.fromJson(v));
+        data?.add(DataModel.fromJson(v));
       });
     }
   }
-  num? statusCode;
-  String? message;
-  Pagination? pagination;
-  List<Data>? data;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['statusCode'] = statusCode;
-    map['message'] = message;
-    if (pagination != null) {
-      map['pagination'] = pagination?.toJson();
-    }
-    if (data != null) {
-      map['data'] = data?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
-
 }
 
+class DataModel extends Data {
+  DataModel({
+    super.id,
+    super.name,
+    super.description,
+    super.subCategoryId,
+    super.brandId,
+    super.bostaSizeId,
+    super.createdAt,
+    super.updatedAt,
+    super.deletedAt,
+    super.productRating,
+    super.estimatedDaysPreparing,
+    super.brands,
+    super.productVariations,
+    super.subCategories,
+    super.sizeChart,
+  });
 
-
-class Data {
-  Data({
-      this.id, 
-      this.name, 
-      this.description, 
-      this.subCategoryId, 
-      this.brandId, 
-      this.bostaSizeId, 
-      this.createdAt, 
-      this.updatedAt, 
-      this.deletedAt, 
-      this.productRating, 
-      this.estimatedDaysPreparing, 
-      this.brands, 
-      this.productVariations, 
-      this.subCategories, 
-      this.sizeChart,});
-
-  Data.fromJson(dynamic json) {
+  DataModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
     description = json['description'];
@@ -70,73 +56,33 @@ class Data {
     deletedAt = json['deletedAt'];
     productRating = json['product_rating'];
     estimatedDaysPreparing = json['estimated_days_preparing'];
-    brands = json['Brands'] != null ? Brands.fromJson(json['Brands']) : null;
+    brands =
+        json['Brands'] != null ? BrandsModel.fromJson(json['Brands']) : null;
     if (json['ProductVariations'] != null) {
       productVariations = [];
       json['ProductVariations'].forEach((v) {
-        productVariations?.add(ProductVariations.fromJson(v));
+        productVariations?.add(ProductVariationsModel.fromJson(v));
       });
     }
-    subCategories = json['SubCategories'] != null ? SubCategories.fromJson(json['SubCategories']) : null;
+    subCategories = json['SubCategories'] != null
+        ? SubCategoriesModel.fromJson(json['SubCategories'])
+        : null;
     sizeChart = json['SizeChart'];
   }
-  num? id;
-  String? name;
-  String? description;
-  num? subCategoryId;
-  num? brandId;
-  num? bostaSizeId;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  num? productRating;
-  num? estimatedDaysPreparing;
-  Brands? brands;
-  List<ProductVariations>? productVariations;
-  SubCategories? subCategories;
-  dynamic sizeChart;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['description'] = description;
-    map['sub_category_id'] = subCategoryId;
-    map['brand_id'] = brandId;
-    map['bosta_size_id'] = bostaSizeId;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    map['deletedAt'] = deletedAt;
-    map['product_rating'] = productRating;
-    map['estimated_days_preparing'] = estimatedDaysPreparing;
-    if (brands != null) {
-      map['Brands'] = brands?.toJson();
-    }
-    if (productVariations != null) {
-      map['ProductVariations'] = productVariations?.map((v) => v.toJson()).toList();
-    }
-    if (subCategories != null) {
-      map['SubCategories'] = subCategories?.toJson();
-    }
-    map['SizeChart'] = sizeChart;
-    return map;
-  }
-
 }
 
+class SubCategoriesModel extends SubCategories {
+  SubCategoriesModel({
+    super.id,
+    super.name,
+    super.deletedAt,
+    super.createdAt,
+    super.updatedAt,
+    super.categoryId,
+    super.imagePath,
+  });
 
-
-class SubCategories {
-  SubCategories({
-      this.id, 
-      this.name, 
-      this.deletedAt, 
-      this.createdAt, 
-      this.updatedAt, 
-      this.categoryId, 
-      this.imagePath,});
-
-  SubCategories.fromJson(dynamic json) {
+  SubCategoriesModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
     deletedAt = json['deletedAt'];
@@ -145,13 +91,6 @@ class SubCategories {
     categoryId = json['category_id'];
     imagePath = json['image_path'];
   }
-  num? id;
-  String? name;
-  dynamic deletedAt;
-  String? createdAt;
-  String? updatedAt;
-  num? categoryId;
-  String? imagePath;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -164,26 +103,24 @@ class SubCategories {
     map['image_path'] = imagePath;
     return map;
   }
-
 }
 
+class ProductVariationsModel extends ProductVariations {
+  ProductVariationsModel({
+    super.id,
+    super.productId,
+    super.price,
+    super.quantity,
+    super.isDefault,
+    super.deletedAt,
+    super.createdAt,
+    super.updatedAt,
+    super.productVariationStatusId,
+    super.productStatusLookups,
+    super.productVarientImages,
+  });
 
-
-class ProductVariations {
-  ProductVariations({
-      this.id, 
-      this.productId, 
-      this.price, 
-      this.quantity, 
-      this.isDefault, 
-      this.deletedAt, 
-      this.createdAt, 
-      this.updatedAt, 
-      this.productVariationStatusId, 
-      this.productStatusLookups, 
-      this.productVarientImages,});
-
-  ProductVariations.fromJson(dynamic json) {
+  ProductVariationsModel.fromJson(dynamic json) {
     id = json['id'];
     productId = json['product_id'];
     price = json['price'];
@@ -193,70 +130,34 @@ class ProductVariations {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     productVariationStatusId = json['product_variation_status_id'];
-    productStatusLookups = json['ProductStatusLookups'] != null ? ProductStatusLookups.fromJson(json['ProductStatusLookups']) : null;
+    productStatusLookups = json['ProductStatusLookups'] != null
+        ? ProductStatusLookupsModel.fromJson(json['ProductStatusLookups'])
+        : null;
     if (json['ProductVarientImages'] != null) {
       productVarientImages = [];
       json['ProductVarientImages'].forEach((v) {
-        productVarientImages?.add(ProductVarientImages.fromJson(v));
+        productVarientImages?.add(ProductVarientImagesModel.fromJson(v));
       });
     }
   }
-  num? id;
-  num? productId;
-  num? price;
-  num? quantity;
-  bool? isDefault;
-  dynamic deletedAt;
-  String? createdAt;
-  String? updatedAt;
-  num? productVariationStatusId;
-  ProductStatusLookups? productStatusLookups;
-  List<ProductVarientImages>? productVarientImages;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['product_id'] = productId;
-    map['price'] = price;
-    map['quantity'] = quantity;
-    map['is_default'] = isDefault;
-    map['deletedAt'] = deletedAt;
-    map['createdAt'] = createdAt;
-    map['updatedAt'] = updatedAt;
-    map['product_variation_status_id'] = productVariationStatusId;
-    if (productStatusLookups != null) {
-      map['ProductStatusLookups'] = productStatusLookups?.toJson();
-    }
-    if (productVarientImages != null) {
-      map['ProductVarientImages'] = productVarientImages?.map((v) => v.toJson()).toList();
-    }
-    return map;
-  }
-
 }
 
+class ProductVarientImagesModel extends ProductVarientImages {
+  ProductVarientImagesModel({
+    super.id,
+    super.imagePath,
+    super.productVarientId,
+    super.createdAt,
+    super.updatedAt,
+  });
 
-
-class ProductVarientImages {
-  ProductVarientImages({
-      this.id, 
-      this.imagePath, 
-      this.productVarientId, 
-      this.createdAt, 
-      this.updatedAt,});
-
-  ProductVarientImages.fromJson(dynamic json) {
+  ProductVarientImagesModel.fromJson(dynamic json) {
     id = json['id'];
     imagePath = json['image_path'];
     productVarientId = json['product_varient_id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
-  num? id;
-  String? imagePath;
-  dynamic productVarientId;
-  String? createdAt;
-  String? updatedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -267,28 +168,22 @@ class ProductVarientImages {
     map['updatedAt'] = updatedAt;
     return map;
   }
-
 }
 
+class ProductStatusLookupsModel extends ProductStatusLookups {
+  ProductStatusLookupsModel({
+    super.id,
+    super.name,
+    super.createdAt,
+    super.updatedAt,
+  });
 
-
-class ProductStatusLookups {
-  ProductStatusLookups({
-      this.id, 
-      this.name, 
-      this.createdAt, 
-      this.updatedAt,});
-
-  ProductStatusLookups.fromJson(dynamic json) {
+  ProductStatusLookupsModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
-  num? id;
-  String? name;
-  String? createdAt;
-  String? updatedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -298,37 +193,35 @@ class ProductStatusLookups {
     map['updatedAt'] = updatedAt;
     return map;
   }
-
 }
 
+class BrandsModel extends Brands {
+  BrandsModel({
+    super.id,
+    super.brandName,
+    super.brandFacebookPageLink,
+    super.brandInstagramPageLink,
+    super.brandWebsiteLink,
+    super.brandMobileNumber,
+    super.brandEmailAddress,
+    super.taxIdNumber,
+    super.brandDescription,
+    super.brandLogoImagePath,
+    super.brandStatusId,
+    super.brandStoreAddressId,
+    super.brandCategoryId,
+    super.deletedAt,
+    super.createdAt,
+    super.updatedAt,
+    super.brandSellerId,
+    super.brandId,
+    super.slashContractPath,
+    super.brandRating,
+    super.daysLimitToReturn,
+    super.planId,
+  });
 
-
-class Brands {
-  Brands({
-      this.id, 
-      this.brandName, 
-      this.brandFacebookPageLink, 
-      this.brandInstagramPageLink, 
-      this.brandWebsiteLink, 
-      this.brandMobileNumber, 
-      this.brandEmailAddress, 
-      this.taxIdNumber, 
-      this.brandDescription, 
-      this.brandLogoImagePath, 
-      this.brandStatusId, 
-      this.brandStoreAddressId, 
-      this.brandCategoryId, 
-      this.deletedAt, 
-      this.createdAt, 
-      this.updatedAt, 
-      this.brandSellerId, 
-      this.brandId, 
-      this.slashContractPath, 
-      this.brandRating, 
-      this.daysLimitToReturn, 
-      this.planId,});
-
-  Brands.fromJson(dynamic json) {
+  BrandsModel.fromJson(dynamic json) {
     id = json['id'];
     brandName = json['brand_name'];
     brandFacebookPageLink = json['brand_facebook_page_link'];
@@ -352,28 +245,6 @@ class Brands {
     daysLimitToReturn = json['days_limit_to_return'];
     planId = json['planId'];
   }
-  num? id;
-  String? brandName;
-  dynamic brandFacebookPageLink;
-  dynamic brandInstagramPageLink;
-  dynamic brandWebsiteLink;
-  String? brandMobileNumber;
-  String? brandEmailAddress;
-  dynamic taxIdNumber;
-  String? brandDescription;
-  String? brandLogoImagePath;
-  num? brandStatusId;
-  dynamic brandStoreAddressId;
-  num? brandCategoryId;
-  dynamic deletedAt;
-  String? createdAt;
-  String? updatedAt;
-  num? brandSellerId;
-  dynamic brandId;
-  dynamic slashContractPath;
-  num? brandRating;
-  num? daysLimitToReturn;
-  dynamic planId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -401,24 +272,20 @@ class Brands {
     map['planId'] = planId;
     return map;
   }
-
 }
 
+class PaginationModel extends Pagination {
+  PaginationModel({
+    super.pages,
+  });
 
-
-class Pagination {
-  Pagination({
-      this.pages,});
-
-  Pagination.fromJson(dynamic json) {
+  PaginationModel.fromJson(dynamic json) {
     pages = json['pages'];
   }
-  dynamic pages;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['pages'] = pages;
     return map;
   }
-
 }
