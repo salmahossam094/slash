@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:slash_intern/core/utils/app_colors.dart';
@@ -29,10 +30,20 @@ class ProductWidget extends StatelessWidget {
                   height: 120.h,
                   width: 160.w,
                   child: ClipRRect(
-                    child: Image.network(
-                      e.productVariations?[0].productVarientImages?[0]
+                    child: CachedNetworkImage(
+                      imageUrl: e.productVariations?[0].productVarientImages?[0]
                               .imagePath ??
                           'https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpgs',
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                        child: CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          backgroundColor: AppColors.primary,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -43,14 +54,40 @@ class ProductWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    e.name ?? 'No name',
-                    style: poppins18W400(),
+                  Expanded(
+                    child: Text(
+                      '${e.brands?.brandName ?? ''}- ${e.name ?? 'No name'} ',
+                      maxLines: 3,
+                      softWrap: true,
+                      style: poppins18W400(),
+                    ),
                   ),
-                  CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: Image.network(e.brands?.brandLogoImagePath ??
-                        'https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg'),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(2).w,
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: AppColors.onPrimary, width: 1),
+                        borderRadius: BorderRadius.circular(25.r)),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: CachedNetworkImage(
+                        imageUrl: e.brands?.brandLogoImagePath ??
+                            'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg',
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress,
+                                    backgroundColor: AppColors.onPrimary,
+                                    color: AppColors.onPrimary),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        height: 20.h,
+                        width: 20.h,
+                      ),
+                    ),
                   )
                 ],
               ),
