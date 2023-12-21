@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:slash_intern/config/routes/routes.dart';
 import 'package:slash_intern/core/utils/app_colors.dart';
 import 'package:slash_intern/core/utils/text_styles.dart';
 import 'package:slash_intern/features/products/data/data_sources/remote_dto.dart';
@@ -64,7 +65,15 @@ class Products extends StatelessWidget {
                                 .map((e) => Padding(
                                       padding:
                                           const EdgeInsets.only(left: 10.0),
-                                      child: ProductWidget(e: e),
+                                      child: InkWell(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              Routes.productDetailsRoute,
+                                              arguments: e,
+                                            );
+                                          },
+                                          child: ProductWidget(e: e)),
                                     ))
                                 .toList(),
                           ),
